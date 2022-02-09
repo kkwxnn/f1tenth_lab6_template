@@ -19,11 +19,11 @@ can be calculated as:
 
 ## IV. Visualizing Waypoints
 
-To visualize the list of waypoints you have, and to visualize the current waypoint you're picking, you'll need to use the \textit{visualization\_msgs} messages and RViz. You can find some information [here](http://wiki.ros.org/rviz/DisplayTypes/Marker).
+To visualize the list of waypoints you have, and to visualize the current waypoint you're picking, you'll need to use the `visualization_msgs` messages and RViz. You can find some information [here](http://wiki.ros.org/rviz/DisplayTypes/Marker).
 
 ## V: Grading Rubric
-- Compilation: **30** Points
-- Provided Video: **20** Points
-- Correctly stops before collision: **30** Points
-- Correctly calculates TTC: **10** Points
-- Able to navigate through the hallway: **10** Points
+- Compilation: **10** Points
+- Occupancy grid init and update: **20** Points
+- Correct collision check: **30** Points
+- Correct find path: **30** Points
+- Video: **10** Points
