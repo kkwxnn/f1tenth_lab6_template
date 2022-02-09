@@ -9,7 +9,7 @@ from ackermann_msgs.msg import AckermannDriveStamped, AckermannDrive
 
 class PurePursuit(Node):
     """ 
-    Implement Wall Following on the car
+    Implement Pure Pursuit on the car
     This is just a template, you are free to implement your own node!
     """
     def __init__(self):
