@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>lab6_pkg</name>
+  <name>pure_pursuit</name>
   <version>0.0.0</version>
-  <description>f1tenth lab6_pkg</description>
+  <description>f1tenth pure_pursuit</description>
   <maintainer email="zzang@seas.upenn.edu">zzangupenn</maintainer>
-  <license>TODO: License declaration</license>
+  <maintainer email="billyzheng.bz@gmail.com">Hongrui Zheng</maintainer>
+  <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <buildtool_depend>ament_cmake_python</buildtool_depend>
