@@ -39,9 +39,9 @@ To visualize the list of waypoints you have, and to visualize the current waypoi
 
 ## VII. Deliverables
 
-**Deliverable 1**: submit the map files (.pgm and .yaml) that you've made using `slam_toolbox`.
-**Deliverable 2**: commit your pure pursuit package to GitHub.
-**Deliverable 3**: submit a link to a video on YouTube showing pure pursuit running on the car. Show a screen recording of rviz. If you want to include a video of the car running that's also ok.
+- **Deliverable 1**: Submit the map files (levine_2nd.pgm and levine_2nd.yaml) that you've made using `slam_toolbox`.
+- **Deliverable 2**: Commit your pure pursuit package to GitHub.
+- **Deliverable 3**: Submit a link to a video on YouTube showing the real car following waypoints in Levine hallway. Show a screen recording of rviz. 
 
 ## VIII: Grading Rubric
 - Compilation: **10** Points
