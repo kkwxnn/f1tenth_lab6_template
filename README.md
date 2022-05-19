@@ -21,7 +21,8 @@ We have provided a skeleton for the pure pursuit node. As per usual, test your a
 As shown in the lecture, the curvature of the arc to track
 can be calculated as:
 
-![](https://latex.codecogs.com/svg.latex?\gamma=\frac{2|y|}{L^2})
+<!-- ![](https://latex.codecogs.com/svg.latex?\gamma=\frac{2|y|}{L^2}) -->
+$$\gamma=\frac{2|y|}{L^2}$$
 
 ## V. Logging Waypoints
 
