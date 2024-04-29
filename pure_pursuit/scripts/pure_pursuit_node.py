@@ -19,22 +19,27 @@ class PurePursuit(Node):
     def __init__(self):
         super().__init__('pure_pursuit_node')
         # TODO: create ROS subscribers and publishers
-        self.subscription_odom = self.create_subscription(Odometry, '/odom',  self.pose_callback, 10)
+        self.subscription_odom = self.create_subscription(Odometry, '/ego_racecar/odom',  self.pose_callback, 10)
         self.publisher_drive = self.create_publisher(AckermannDriveStamped, '/drive', 10)
         self.lookahead_distance = 1.0
         
         self.cwd = '/home/kwan/f1tenth/src/f1tenth_lab6_template/pure_pursuit/scripts'
         wps = np.genfromtxt(self.cwd+'/levine_blocked_waypoints.csv', delimiter = ',')
-        uniques = np.unique(wps, axis = 0, return_index = True)
-        idxs = np.sort(uniques[1])
-        self.unique_wps = wps[idxs]
-        self.unique_xys = self.unique_wps[:,:2] # waypoints only x and y
+        # uniques = np.unique(wps, axis = 0, return_index = True)
+
+        self.unique_xys = wps[:, 1:3] # waypoints only x and y
+
+        # idxs = np.sort(uniques[1])
+        # self.unique_wps = wps[idxs]
+        # self.unique_xys = self.unique_wps[:,:2] # waypoints only x and y
+        # print(self.unique_xys)
 
         self.odom_x = 0
         self.odom_y = 0
         self.odom_theta = 0
 
     def pose_callback(self, pose_msg):
+        print(pose_msg)
        
         _, _, self.odom_theta = tf_transformations.euler_from_quaternion([pose_msg.pose.pose.orientation.x,
                                                                 pose_msg.pose.pose.orientation.y,
@@ -67,6 +72,7 @@ class PurePursuit(Node):
         steering_angle = (2 * transform_y) / ((transform_x ** 2) + (transform_y ** 2))
         K = 0.6
         steering_angle = K * steering_angle
+        print(steering_angle)
 
         # TODO: publish drive message, don't forget to limit the steering angle.
         if steering_angle >= np.pi/6:

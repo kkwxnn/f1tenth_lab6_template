@@ -1,67 +1,57 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
+
 import rclpy
 from rclpy.node import Node
-
-import numpy as np
-from numpy import linalg as LA
-from tf_transformations import euler_from_quaternion
-from sensor_msgs.msg import LaserScan
-from ackermann_msgs.msg import AckermannDriveStamped, AckermannDrive
-import csv
-
-# TODO CHECK: include needed ROS msg type headers and libraries
-from geometry_msgs.msg import TransformStamped
-from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster
 from nav_msgs.msg import Odometry
+from csv import writer
+from datetime import datetime
+import os
 
-import numpy as np
+x = 0.0
+y = 0.0
+t = 0.0
 
-class WaypointLogger(Node):
-    """ 
-    Implement Pure Pursuit on the car
-    This is just a template, you are free to implement your own node!
-    """
+now = datetime.now()
+date_time = now.strftime("%m-%d-%Y_%H-%M-%S")
+# file_name = f"odom_{date_time}.csv"
+file_name = f"levine_blocked_waypoints.csv"
+path = "/home/kwan/f1tenth/src/f1tenth_lab6_template/pure_pursuit/scripts"
+file_path = os.path.join(path, file_name)
+
+
+class odom_record(Node):
     def __init__(self):
-        super().__init__('waypoint_logger')
-        # TODO: create ROS subscribers and publishers
-        self.odom_sub = self.create_subscription(
-            Odometry,
-            'ego_racecar/odom',
-            self.listener_callback,
-            10)
+        super().__init__("odom_record")
 
-        self.odom_sub  # prevent unused variable warning
+        self.create_subscription(Odometry, "/ego_racecar/odom", self.odom_callback, 10)
+        self.create_timer(0.1, self.timer_callback)
 
-        self.file = open('/test_1.csv', 'w')
-        self.writer = csv.writer(self.file)
+        with open(file_path, "a") as f:
+            csv_writer = writer(f)
+            csv_writer.writerow(["time", "x", "y"])
+            print("Saving to: ", file_name)
 
-    def listener_callback(self, msg):  
+    def odom_callback(self, msg):
+        global x, y, t
+        x = msg.pose.pose.position.x
+        y = msg.pose.pose.position.y
+        t = msg.header.stamp.sec + msg.header.stamp.nanosec * 1e-9
 
-        quaternion = np.array([msg.pose.pose.orientation.x, 
-                        msg.pose.pose.orientation.y, 
-                        msg.pose.pose.orientation.z, 
-                        msg.pose.pose.orientation.w])
+    def timer_callback(self):
+        global x, y, t
+        # self.get_logger().info("x: {}, y: {}".format(x, y))
+        with open(file_path, "a") as f:
+            csv_writer = writer(f)
+            csv_writer.writerow([t, x, y])
 
 
-        euler = euler_from_quaternion(quaternion)
-        speed = LA.norm(np.array([msg.twist.twist.linear.x, 
-                                msg.twist.twist.linear.y, 
-                                msg.twist.twist.linear.z]),2)
-        final_arr = [msg.pose.pose.position.x, \
-            msg.pose.pose.position.y, euler[2], speed]
-        
-        print(final_arr)
-        self.writer.writerow(final_arr)
-
-    
 def main(args=None):
     rclpy.init(args=args)
-    print("Waypoint Logger Initialized")
-    waypoint_logger_node = WaypointLogger()
-    rclpy.spin(waypoint_logger_node)
-    waypoint_logger_node.destroy_node()
+    node = odom_record()
+    rclpy.spin(node)
+    node.destroy_node()
     rclpy.shutdown()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
